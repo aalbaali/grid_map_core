@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 3.5.1)
+cmake_minimum_required(VERSION 3.12.0)
 project(GridMapCore)
 
 set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
 add_compile_options(-Wall -Wextra -Wpedantic)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-## Define Eigen addons. 
+## Define Eigen addons. Creates an interface library: CompileFlags
 include(cmake/grid_map_core-extras.cmake)
 
 ## System dependencies are found with CMake's conventions
@@ -41,7 +41,7 @@ add_library(GridMapCore
    src/iterators/SlidingWindowIterator.cpp
 )
 target_link_libraries(GridMapCore
-  Eigen3::Eigen
+  Eigen3::Eigen CompileFlags
 )
 target_include_directories(GridMapCore PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>  
@@ -140,7 +140,7 @@ set(TARGETS_NAMESPACE "GridMap")
 set(TARGETS_CONFIG_FILENAME "${TARGETS_NAME}Config.cmake.in")
 
 install(
-  TARGETS "${TARGETS_NAME}"
+  TARGETS "${TARGETS_NAME}" CompileFlags
   EXPORT  "${TARGETS_NAME}Targets"
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib 

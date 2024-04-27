@@ -1,10 +1,13 @@
+# An interface library that defines compile flags
+add_library(CompileFlags INTERFACE)
+
 set(EIGEN_FUNCTORS_PLUGIN_PATH "grid_map_core/eigen_plugins/FunctorsPlugin.hpp")
 if (EIGEN_FUNCTORS_PLUGIN)
   if (NOT EIGEN_FUNCTORS_PLUGIN STREQUAL EIGEN_FUNCTORS_PLUGIN_PATH)
     MESSAGE(FATAL_ERROR "EIGEN_FUNCTORS_PLUGIN already defined!")
   endif ()
 else (EIGEN_FUNCTORS_PLUGIN)
-  add_definitions(-DEIGEN_FUNCTORS_PLUGIN=\"${EIGEN_FUNCTORS_PLUGIN_PATH}\")
+  target_compile_definitions(CompileFlags INTERFACE -DEIGEN_FUNCTORS_PLUGIN=\"${EIGEN_FUNCTORS_PLUGIN_PATH}\")
 endif (EIGEN_FUNCTORS_PLUGIN)
 
 set(EIGEN_DENSEBASE_PLUGIN_PATH "grid_map_core/eigen_plugins/DenseBasePlugin.hpp")
@@ -13,5 +16,5 @@ if (EIGEN_DENSEBASE_PLUGIN)
     MESSAGE(FATAL_ERROR "EIGEN_DENSEBASE_PLUGIN already defined!")
   endif ()
 else (EIGEN_DENSEBASE_PLUGIN)
-    add_definitions(-DEIGEN_DENSEBASE_PLUGIN=\"${EIGEN_DENSEBASE_PLUGIN_PATH}\")
+  target_compile_definitions(CompileFlags INTERFACE -DEIGEN_DENSEBASE_PLUGIN=\"${EIGEN_DENSEBASE_PLUGIN_PATH}\")
 endif (EIGEN_DENSEBASE_PLUGIN)
