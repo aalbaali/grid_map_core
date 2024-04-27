@@ -9,7 +9,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 include(cmake/grid_map_core-extras.cmake)
 
 ## System dependencies are found with CMake's conventions
-#find_package(Eigen3 REQUIRED)
 # Solution to find Eigen3 with Saucy.
 find_package(Eigen3 QUIET)
 if(NOT EIGEN3_FOUND)
@@ -23,14 +22,6 @@ find_package(Eigen3 REQUIRED)
 ###########
 ## Build ##
 ###########
-
-## Specify additional locations of header files
-include_directories(
-  include
-  SYSTEM
-    ${catkin_INCLUDE_DIRS}
-    ${EIGEN3_INCLUDE_DIR}
-)
 
 ## Declare a cpp library
 add_library(GridMapCore
@@ -51,6 +42,10 @@ add_library(GridMapCore
 )
 target_link_libraries(GridMapCore
   Eigen3::Eigen
+)
+target_include_directories(GridMapCore PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>  
+    $<INSTALL_INTERFACE:include>
 )
 
 ##############
@@ -93,10 +88,10 @@ if(BUILD_TESTS)
 
   set(TEST_TARGETS
     test_grid_map_core
-    #CubicConvolutionInterpolationTest
-    #CubicInterpolationTest
-    #GridMapMathTest
-    #GridMapTest
+    CubicConvolutionInterpolationTest
+    CubicInterpolationTest
+    GridMapMathTest
+    GridMapTest
     GridMapIteratorTest
     LineIteratorTest
     EllipseIteratorTest
@@ -113,16 +108,16 @@ if(BUILD_TESTS)
   endforeach()
 
 
-  ####################
-  ### Code_coverage ##
-  ####################
-  #find_package(cmake_code_coverage QUIET)
-  #if(cmake_code_coverage_FOUND)
-  #  add_gtest_coverage(
-  #    TEST_BUILD_TARGETS
-  #      GridMapCore-test
-  #  )
-  #endif()
+  ###################
+  ## Code_coverage ##
+  ###################
+  find_package(cmake_code_coverage QUIET)
+  if(cmake_code_coverage_FOUND)
+    add_gtest_coverage(
+      TEST_BUILD_TARGETS
+        GridMapCore-test
+    )
+  endif()
 endif()
 
 #################
