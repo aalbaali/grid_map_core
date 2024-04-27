@@ -53,6 +53,14 @@ target_link_libraries(GridMapCore
   Eigen3::Eigen
 )
 
+##############
+## Examples ##
+##############
+option(BUILD_EXAMLPES "Build examples" OFF)
+if(BUILD_EXAMPLES)
+  add_subdirectory(examples)
+endif()
+
 #############
 ## Testing ##
 #############
