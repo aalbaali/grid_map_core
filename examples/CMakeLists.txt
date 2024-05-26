@@ -1,2 +1,5 @@
 add_executable(example example.cpp)
 target_link_libraries(example GridMapCore)
+
+add_executable(mwe_linear_interp_issue mwe_linear_interp_issue.cpp)
+target_link_libraries(mwe_linear_interp_issue GridMapCore)
